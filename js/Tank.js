@@ -60,6 +60,22 @@ export class Tank {
     this._bodyContainer.rotation = value;
   }
 
+  get x() {
+    return this._view.position.x;
+  }
+
+  set x(value) {
+    this._view.position.x = value;
+  }
+
+  get y() {
+    return this._view.position.y;
+  }
+
+  set y(value) {
+    this._view.position.y = value;
+  }
+
   rotateTowerBy(angle) {
     this._towerContainer.rotation += angle;
   }

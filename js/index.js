@@ -1,4 +1,5 @@
-import { Application, Graphics } from './pixi.mjs';
+import { Application, Graphics, Rectangle } from './pixi.mjs';
+import { TweenManager } from './Tween.js';
 import { assestMap } from './assetsMap.js';
 import { Tank } from './Tank.js';
 
@@ -19,6 +20,22 @@ const runGame = () => {
   app.stage.addChild(tank.view);
   app.stage.addChild(marker);
   app.stage.position.set(800/2, 800/2);
+  window['TANK'] = tank;
+
+  const tweenManager = new TweenManager(app.ticker);
+
+  const moveTank = ({ data }) => {
+    const distanceToCenter = data.getLocalPosition(app.stage);
+    const distanceToTank = data.getLocalPosition(tank.view);
+    const angle = Math.atan2(distanceToTank.x, distanceToTank.y);
+    console.log(angle);
+    tweenManager.createTween(tank, 1000, { towerDirection: angle });
+  };
+
+  app.stage.on("pointerdown", moveTank);
+  app.stage.interactive = true;
+  app.stage.interactiveChildren = false;
+  app.stage.hitArea = new Rectangle(-400, -400, 800, 800);
 }
 
 assestMap.sprites.forEach(sprite => {
